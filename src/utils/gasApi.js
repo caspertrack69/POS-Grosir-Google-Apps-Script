@@ -67,6 +67,7 @@ async function parseResponse(response) {
 
 function resolveUrl(action, params = {}) {
   const baseUrl = getBaseUrl();
+  const token = getGasToken();
 
   if (!baseUrl) {
     throw new Error("VITE_GAS_BASE_URL belum diatur.");
@@ -80,6 +81,10 @@ function resolveUrl(action, params = {}) {
       url.searchParams.set(key, String(value));
     }
   });
+
+  if (token) {
+    url.searchParams.set("token", token);
+  }
 
   return url.toString();
 }
@@ -122,6 +127,7 @@ export async function gasGet(action, params = {}, options = {}) {
 
 export async function gasPost(action, data = {}, options = {}) {
   const baseUrl = getBaseUrl();
+  const token = getGasToken();
 
   if (!baseUrl) {
     throw new Error("VITE_GAS_BASE_URL belum diatur.");
@@ -129,6 +135,7 @@ export async function gasPost(action, data = {}, options = {}) {
 
   const payload = {
     action,
+    ...(token ? { token } : {}),
     ...data,
   };
 

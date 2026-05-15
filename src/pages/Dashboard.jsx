@@ -84,7 +84,7 @@ function Dashboard() {
           rel="noreferrer"
           target="_blank"
         >
-          Join Komunitas WhatsApp GAS
+          Join Komunitas
         </a>
       </Card>
     </div>
