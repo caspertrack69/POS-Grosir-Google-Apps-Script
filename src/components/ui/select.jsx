@@ -1,11 +1,11 @@
 ﻿function Select({ label, id, options, className = "", ...props }) {
   return (
-    <label className="flex w-full flex-col gap-1 text-sm font-medium text-slate-700" htmlFor={id}>
+    <label className="flex w-full flex-col gap-1.5 text-xs font-medium text-slate-500" htmlFor={id}>
       {label ? <span>{label}</span> : null}
       <select
         id={id}
         className={[
-          "w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 outline-none ring-brand-500 transition focus:border-brand-500 focus:ring-1",
+          "w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-900 outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-100",
           className,
         ].join(" ")}
         {...props}

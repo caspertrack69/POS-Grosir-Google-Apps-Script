@@ -1,11 +1,11 @@
 ﻿import { useEffect, useMemo, useState } from "react";
-import Card from "../components/ui/card";
-import Table from "../components/ui/table";
-import Input from "../components/ui/input";
-import Button from "../components/ui/button";
-import Select from "../components/ui/select";
-import TierBadge from "../components/TierBadge/TierBadge";
 import Badge from "../components/ui/badge";
+import Button from "../components/ui/button";
+import Card from "../components/ui/card";
+import Input from "../components/ui/input";
+import Select from "../components/ui/select";
+import Table from "../components/ui/table";
+import TierBadge from "../components/TierBadge/TierBadge";
 import useGAS from "../hooks/useGAS";
 import { mockMitra, mockTierConfig } from "../data/mockData";
 import { formatRupiah } from "../utils/formatRupiah";
@@ -64,9 +64,9 @@ function Mitra() {
 
   const columns = useMemo(
     () => [
-      { key: "id_mitra", label: "ID Mitra" },
-      { key: "nama", label: "Nama" },
-      { key: "nomor_hp", label: "Nomor HP" },
+      { key: "id_mitra", label: "ID" },
+      { key: "nama", label: "Mitra" },
+      { key: "nomor_hp", label: "No. HP" },
       {
         key: "level_tier",
         label: "Tier",
@@ -74,7 +74,7 @@ function Mitra() {
       },
       {
         key: "total_pembelian",
-        label: "Total Pembelian",
+        label: "Total",
         render: (row) => formatRupiah(row.total_pembelian || 0),
       },
     ],
@@ -113,15 +113,16 @@ function Mitra() {
   };
 
   return (
-    <div className="space-y-4 pb-20 lg:pb-0">
-      <Card title="Manajemen Mitra" description="Kelola tier, data kontak, dan profil mitra reseller.">
-        <div className="flex items-center justify-between">
-          <p className="text-sm text-slate-600">Jumlah mitra: {mitraList.length}</p>
-          <Badge variant={usingMock ? "warning" : "success"}>{usingMock ? "Mock data" : "Live data"}</Badge>
-        </div>
+    <div className="space-y-4">
+      <Card
+        title="Manajemen Mitra"
+        description="Kelola data pelanggan dan tingkatan tier."
+        action={<Badge variant={usingMock ? "warning" : "success"}>{usingMock ? "Mock" : "Live"}</Badge>}
+      >
+        <p className="text-sm text-slate-500">Jumlah mitra: {mitraList.length}</p>
       </Card>
 
-      <Card title="Tambah Mitra">
+      <Card title="Tambah Mitra Baru">
         <form className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3" onSubmit={handleSubmit}>
           <Input id="id_mitra" label="ID Mitra" name="id_mitra" onChange={handleChange} value={form.id_mitra} />
           <Input id="nama" label="Nama Mitra" name="nama" onChange={handleChange} value={form.nama} />
@@ -134,7 +135,7 @@ function Mitra() {
             onChange={handleChange}
             options={tierConfig.map((tier) => ({
               value: String(tier.level),
-              label: `${tier.nama_tier} (${tier.diskon_persen}% )`,
+              label: `${tier.nama_tier} (${tier.diskon_persen}%)`,
             }))}
             value={form.level_tier}
           />

@@ -1,11 +1,11 @@
 ﻿import { useMemo, useState } from "react";
-import Card from "../components/ui/card";
-import Table from "../components/ui/table";
-import Input from "../components/ui/input";
-import Button from "../components/ui/button";
-import Select from "../components/ui/select";
-import InvoicePreview from "../components/InvoicePreview/InvoicePreview";
 import Badge from "../components/ui/badge";
+import Button from "../components/ui/button";
+import Card from "../components/ui/card";
+import Input from "../components/ui/input";
+import InvoicePreview from "../components/InvoicePreview/InvoicePreview";
+import Select from "../components/ui/select";
+import Table from "../components/ui/table";
 import useInvoice from "../hooks/useInvoice";
 import useGAS from "../hooks/useGAS";
 import { mockInvoices } from "../data/mockData";
@@ -32,8 +32,8 @@ function Invoice() {
 
   const columns = useMemo(
     () => [
-      { key: "id_invoice", label: "ID Invoice" },
-      { key: "id_transaksi", label: "ID Transaksi" },
+      { key: "id_invoice", label: "Invoice" },
+      { key: "id_transaksi", label: "Transaksi" },
       { key: "nama_mitra", label: "Mitra" },
       {
         key: "grand_total",
@@ -42,14 +42,14 @@ function Invoice() {
       },
       {
         key: "status_wa",
-        label: "Status WA",
+        label: "WA",
         render: (row) => <Badge variant={row.status_wa === "TERKIRIM" ? "success" : "warning"}>{row.status_wa || "PENDING"}</Badge>,
       },
       {
         key: "aksi",
-        label: "Aksi",
+        label: "",
         render: (row) => (
-          <Button onClick={() => setActiveInvoice(row)} variant="secondary">
+          <Button onClick={() => setActiveInvoice(row)} size="sm" variant="secondary">
             Lihat
           </Button>
         ),
@@ -72,7 +72,7 @@ function Invoice() {
         return;
       }
     } catch {
-      // lanjut fallback
+      // fallback lokal
     }
 
     const fromLocal = rows.find((invoice) => invoice.id_invoice === queryId);
@@ -101,46 +101,37 @@ function Invoice() {
       setStatusMessage("Server belum tersedia, status tersimpan di tampilan lokal.");
     }
 
-    setActiveInvoice((current) =>
-      current
-        ? {
-            ...current,
-            status: statusUpdate,
-          }
-        : current,
-    );
+    setActiveInvoice((current) => (current ? { ...current, status: statusUpdate } : current));
   };
 
   return (
-    <div className="space-y-4 pb-20 lg:pb-0">
-      <Card title="Invoice" description="Tracking invoice, status WhatsApp, dan update status pembayaran.">
-        <div className="grid gap-3 sm:grid-cols-[1fr_auto]">
-          <Input
-            id="queryInvoice"
-            label="Cari Invoice"
-            onChange={(event) => setQueryId(event.target.value)}
-            placeholder="INV-YYYYMMDD-XXXX"
-            value={queryId}
-          />
-          <div className="flex items-end">
+    <div className="space-y-4">
+      <Card title="Kelola Invoice" description="Cari invoice, lihat detail, dan update status pembayaran.">
+        <div className="grid gap-3 lg:grid-cols-2">
+          <div className="space-y-3">
+            <Input
+              id="queryInvoice"
+              label="Cari Invoice"
+              onChange={(event) => setQueryId(event.target.value)}
+              placeholder="INV-YYYYMMDD-XXXX"
+              value={queryId}
+            />
             <Button disabled={loading} onClick={searchInvoice}>
-              Cari
+              Cari Invoice
             </Button>
           </div>
-        </div>
 
-        <div className="mt-3 grid gap-3 sm:grid-cols-[1fr_auto]">
-          <Select
-            id="statusInvoice"
-            label="Update Status"
-            onChange={(event) => setStatusUpdate(event.target.value)}
-            options={[
-              { value: "LUNAS", label: "LUNAS" },
-              { value: "BELUM LUNAS", label: "BELUM LUNAS" },
-            ]}
-            value={statusUpdate}
-          />
-          <div className="flex items-end">
+          <div className="space-y-3">
+            <Select
+              id="statusInvoice"
+              label="Update Status"
+              onChange={(event) => setStatusUpdate(event.target.value)}
+              options={[
+                { value: "LUNAS", label: "LUNAS" },
+                { value: "BELUM LUNAS", label: "BELUM LUNAS" },
+              ]}
+              value={statusUpdate}
+            />
             <Button disabled={loading} onClick={updateStatus} variant="secondary">
               Simpan Status
             </Button>

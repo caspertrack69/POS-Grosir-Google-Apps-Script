@@ -1,9 +1,9 @@
 ﻿import { useEffect, useMemo, useState } from "react";
-import Card from "../components/ui/card";
-import Table from "../components/ui/table";
-import Input from "../components/ui/input";
-import Button from "../components/ui/button";
 import Badge from "../components/ui/badge";
+import Button from "../components/ui/button";
+import Card from "../components/ui/card";
+import Input from "../components/ui/input";
+import Table from "../components/ui/table";
 import useGAS from "../hooks/useGAS";
 import { mockProducts } from "../data/mockData";
 import { formatRupiah } from "../utils/formatRupiah";
@@ -34,7 +34,7 @@ function Produk() {
           return;
         }
       } catch {
-        setUsingMock(true);
+        // fallback
       }
 
       setProducts(mockProducts);
@@ -51,7 +51,7 @@ function Produk() {
       { key: "kategori", label: "Kategori" },
       {
         key: "harga_dasar",
-        label: "Harga Dasar",
+        label: "Harga",
         render: (row) => formatRupiah(row.harga_dasar),
       },
       {
@@ -100,15 +100,16 @@ function Produk() {
   };
 
   return (
-    <div className="space-y-4 pb-20 lg:pb-0">
-      <Card title="Manajemen Produk" description="Kelola SKU, harga dasar, kategori, dan stok minimum.">
-        <div className="flex items-center justify-between">
-          <p className="text-sm text-slate-600">Produk aktif: {products.length}</p>
-          <Badge variant={usingMock ? "warning" : "success"}>{usingMock ? "Mock data" : "Live data"}</Badge>
-        </div>
+    <div className="space-y-4">
+      <Card
+        title="Manajemen Produk"
+        description="Kelola SKU, harga, kategori, dan stok produk."
+        action={<Badge variant={usingMock ? "warning" : "success"}>{usingMock ? "Mock" : "Live"}</Badge>}
+      >
+        <p className="text-sm text-slate-500">Total produk aktif: {products.length}</p>
       </Card>
 
-      <Card title="Tambah Produk">
+      <Card title="Tambah Produk Baru" description="Isi data inti produk di bawah ini.">
         <form className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3" onSubmit={handleSubmit}>
           <Input id="id_produk" label="SKU" name="id_produk" onChange={handleChange} value={form.id_produk} />
           <Input id="nama_produk" label="Nama Produk" name="nama_produk" onChange={handleChange} value={form.nama_produk} />

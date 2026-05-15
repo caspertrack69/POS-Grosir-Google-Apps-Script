@@ -17,7 +17,7 @@ POS Grosir/Mitra dengan Tiered Pricing (Harga Bertingkat) & Auto-Invoice, dengan
 - Manajemen Mitra (list + tambah)
 - Halaman Invoice (tracking + update status)
 - CTA Komunitas GAS (`CommunityBanner`) dengan dismiss dan tampil kembali setelah 7 hari
-- Template backend GAS endpoint `doGet/doPost` sesuai PRD
+- Template backend GAS endpoint `doGet/doPost` 
 - Unit test untuk kalkulasi uang dan generator nomor dokumen
 
 ## Quick start (frontend)
